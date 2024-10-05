@@ -71,7 +71,7 @@ Encontramos que el usuario "beatriz" es válido con el password "chocolate"
 Procedemos a conectarnos por ssh
 
 ```bash
-ssh beatriz:chocolate@172.17.0.2
+ssh beatriz@172.17.0.2
 ```
 
 ![ssh](ssh.png)
