@@ -54,10 +54,10 @@ No hay nada más en el código de la página web
 
 ## Hydra
 
-Hacemos uso Hydra para buscar un password por fuerza bruta por el puerto 22 con el usuario beatriz y el diccionario rockyou.txt
+Hacemos uso Hydra para buscar un password por fuerza bruta por el puerto 22 con el usuario beatriz y el diccionario rockyou.txt (recuerda colocar la ubicación donde tengas este diccionario, en mi caso yo tengo un extracto de las 5000 primeras líneas del rockyou.txt original en mi carpeta /home/kali, llamado rockyou_5000.txt).
 
 ```bash
-hydra -l beatriz -P rockyou.txt 172.17.0.2 ssh -f -V -t 64
+hydra -l beatriz -P /home/kali/rockyou_5000.txt 172.17.0.2 ssh -f -V -t 64
 ```
 
 ![hydra](hydra.png)
@@ -123,3 +123,5 @@ echo aHR0cHM6Ly9yb290YWNjLmVzCg== | base64 -d
 ```
 
 ![flag_final](flag_final.png)
+
+Este es mi primer writeup, pero no será el último!!! Happy Hacking!!!
