@@ -2,7 +2,7 @@
 
 ## Web
 
-Encuentrarás toda la información de este reto en la siguiente URL:
+Encontrarás toda la información de este reto en la siguiente URL:
 
 https://thehackerslabs.com/atencion-extorsion/
 
@@ -10,24 +10,27 @@ https://thehackerslabs.com/atencion-extorsion/
 
 ## Análisis de Informe
 
-Revisemos por partes el informe proporcionado.
+Revisemos el informe proporcionado por partes.
 
 ![informe1](informe1.png)
 
-Un dato relevante es el monto exigido: 300 ETH (Ethers o Etherium)
+Un dato relevante es el monto exigido: 300 ETH (Ethereum: La criptomoneda nativa de la plataforma Ethereum).
+
+Luego,
+
+Tenemos más que todo consejos para realizar OSINT (Open Source Intelligence: Recopilación y análisis de información disponible públicamente)
 
 ![informe2](informe2.png)
-
-En esta parte son más que todo consejos para realizar OSINT (Open Source Intelligence: Recopilación y análisis de información disponible públicamente)
-
 ![informe3](informe3.png)
+
+Y luego tenemos una imagen adjunta que proporciona datos importantes:
+
 ![imagen_extorsion](imagen_extorsion.png)
 
-Y luego tenemos una imagen adjuntada, que proporciona datos importantes:
-
-Datos:
+### Datos
 
 Fecha y Hora amenaza: 03-10-24 02:30:47
+
 Fecha límite para pagar: 04-10-24 02:30:47 (Ya que hay un límite de 24 horas para pagar)
 
 Remitente: Los que saben todo
@@ -49,8 +52,11 @@ Dicho esto listemos las preguntas de la plataforma de la siguiente manera:
 - Podemos observar todas las preguntas y que cada una de ellas tiene un botón de comprobar.
 
 ![alias_pregunta1](alias_pregunta1.png)
+
 ![pregunta2_3](pregunta2_3.png)
+
 ![pregunta4_5](pregunta4_5.png)
+
 ![pregunta6](pregunta6.png)
 
 Ahora sí podemos empezar con la recopilación de información pública.
@@ -68,7 +74,7 @@ Una vez en Etherscan, ingresamos en su buscador la dirección de billetera que t
 
 ![buscar_direccion](buscar_direccion.png)
 
-Y obtenemos información de esa dirección.
+Obtenemos información de esa dirección.
 
 ![respuesta_direccion](respuesta_direccion.png)
 
@@ -80,7 +86,7 @@ Podemos observar que existe solo una transacción que se encuentra entre la fech
 
 ![resultado_entrantes_fecha_hora](resultado_entrantes_fecha_hora.png)
 
-Ingresamos al hash de la transacción para ver mayor detalle y encontrar todas las respuestas a las preguntas que anotamos. 
+Ingresamos al hash de la transacción para ver mayor detalle y aquí podemos encontrar todas las respuestas a las preguntas que anotamos. 
 
 ## Respuestas
 
@@ -97,7 +103,12 @@ Ingresamos al hash de la transacción para ver mayor detalle y encontrar todas l
 ![respuesta4](respuesta4.png)
 
 ### Fecha y hora de la operación
+
+Aquí tenemos que tener cuidado, el formato que nos brinda etherscan es distinto al que se solicita en la plataforma MM-DD-YYYY 00:00:00.
+
 ![respuesta5](respuesta5.png)
+
+La respuesta sería: 10-03-2024 14:30:47
 
 ### Hash de la transacción
 ![respuesta6](respuesta6.png)
@@ -118,10 +129,14 @@ Después de varios intentos, el formato que acepta es Oct-03-2024 02:30:47 (poco
 ![pregunta5_respuesta](pregunta5_respuesta.png)
 
 Observando un poco nuestros datos, más allá de que la respuesta tampoco respeta el formato del mes, la hora no tiene sentido, porque la fecha y hora en la que el 
-extorsionador envía el mensaje a la víctima es a las 03-10-24 02:30:47 según la imagen proporcionada.
+extorsionador envía el mensaje a la víctima es 03-10-24 02:30:47 según la imagen proporcionada.
 No es posible que al mismo tiempo la víctima haya pagado el monto solicitado. Así que la respuesta lógica de cuándo se hizo la transacción es 10-03-2024 14:30:47.
 
 Estos son detalles que se deben tener en cuenta si te estás animando a ser un Analista Forense Digital.
+
+Por cierto, recomiendo la entrevista de Albert Corzo a Irene Cotillas (una experta en análisis forense):
+
+[Podcast Cafe y Pizza](https://www.youtube.com/watch?v=orQjpr-1Sk0&list=PLUNlAmmEQtpb1ZaP10FMBgI1vdNgO3Jgy)
 
 ## Caso alternativo
 
@@ -151,4 +166,12 @@ Podemos visualizar un dato importante que es "Lens Serial Number: : 0x-777a" que
 en que hay muchas transacciones y usamos este hash para hacer match con la transacción correcta. Esencialmente buscaremos un hash de transacción que cuente con estas características para llegar a la
 transacción que realizó la víctima.
 
+Al buscar el match llegaremos a la transacción con hash 0x00ae9dd1f5456f01c0b2458dcc88596a7dd081a2cdf2f581f702fa6333ba777a
+
+Inicia con: 0x
+
+Finaliza con: 777a
+
 Happy Hacking!!!
+
+---p4ntr0x---
