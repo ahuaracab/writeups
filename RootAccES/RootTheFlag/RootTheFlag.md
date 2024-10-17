@@ -6,14 +6,14 @@ Si todavía no se han unido, el enlace al grupo de Telegram es https://lnkd.in/d
 
 En el canal Proyecto: RootTheFlag podrás encontrar el zip RootTheFlag01.zip
 
-![root_the_flag](root_the_flag.png)
-![zip](zip.png)
+![root_the_flag](img/root_the_flag.png)
+![zip](img/zip.png)
 
 Tendrás que descargarlo en tu máquina atacante e inicializarla de la siguiente manera:
 
 Descargar y ubicarlo en un directorio de tu preferencia
 
-![descarga](descarga.png)
+![descarga](img/descarga.png)
 
 Descomprimir el archivo con unzip 
 
@@ -21,14 +21,14 @@ Descomprimir el archivo con unzip
 unzip RootTheFlag01.zip
 ```
 
-![descomprimir](descomprimir.png)
+![descomprimir](img/descomprimir.png)
 
 Inicializar el contenedor
 ```bash
 sudo bash script.sh nombrearchivo.tar
 ```
 
-![inicializar](inicializar.png)
+![inicializar](img/inicializar.png)
 
 Se te mostrará una IP resultante de la máquina víctima inicializada
 
@@ -42,15 +42,15 @@ sudo nmap -p- -sS -sCV 172.17.0.2 --min-rate 5000
 
 Se logra visualizar que se encontraron los puertos 22 y 80 abiertos
 
-![nmap](nmap.png)
+![nmap](img/nmap.png)
 
 El único indicio encontrado en la web (puerto 80) es el nombre "beatriz".
 
-![web](web.png)
+![web](img/web.png)
 
 No hay nada más en el código de la página web
 
-![codigo_web](codigo_web.png)
+![codigo_web](img/codigo_web.png)
 
 ## Hydra
 
@@ -60,11 +60,11 @@ Hacemos uso Hydra para buscar un password por fuerza bruta por el puerto 22 con 
 hydra -l beatriz -P /home/kali/rockyou_5000.txt 172.17.0.2 ssh -f -V -t 64
 ```
 
-![hydra](hydra.png)
+![hydra](img/hydra.png)
 
 Encontramos que el usuario "beatriz" es válido con el password "chocolate"
 
-![hydra_resultado](hydra_resultado.png)
+![hydra_resultado](img/hydra_resultado.png)
 
 ## SSH
 
@@ -74,7 +74,7 @@ Procedemos a conectarnos por ssh
 ssh beatriz@172.17.0.2
 ```
 
-![ssh](ssh.png)
+![ssh](img/ssh.png)
 
 ## Escalamiento de Privilegios
 
@@ -84,7 +84,7 @@ Ahora consultaremos si podemos ejecutar algún binario como usuario root
 sudo -l
 ```
 
-![sudol](sudol.png)
+![sudol](img/sudol.png)
 
 Se puede observar que el usuario beatriz puede ejecutar el binario python3 como root
 
@@ -101,14 +101,14 @@ searchbins -b python -f sudo
 
 Y nos aparece el comando para escalar privilegios a root
 
-![searchbins](searchbins.png)
+![searchbins](img/searchbins.png)
 
 Lo modificaremos un poco antes de usarlo. Es recomendable colocar toda la ruta del binario, tal cuál nos mostró el sudo -l
 
 ```bash
 sudo /usr/bin/python3 -c 'import os; os.system("/bin/bash")'
 ```
-![root](root.png)
+![root](img/root.png)
 
 Ya somos root
 
@@ -122,6 +122,10 @@ Tomamos la parte que está entre llaves, que por su forma parece estar en base64
 echo aHR0cHM6Ly9yb290YWNjLmVzCg== | base64 -d
 ```
 
-![flag_final](flag_final.png)
+![flag_final](img/flag_final.png)
 
-Este es mi primer writeup, pero no será el último!!! Happy Hacking!!!
+Este es mi primer writeup, pero no será el último!!! 
+
+Happy Hacking!!!
+
+---p4ntr0x---

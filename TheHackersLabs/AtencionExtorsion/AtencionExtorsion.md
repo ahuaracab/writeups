@@ -6,13 +6,13 @@ Encontrarás toda la información de este reto en la siguiente URL:
 
 https://thehackerslabs.com/atencion-extorsion/
 
-![web](web.png)
+![web](img/web.png)
 
 ## Análisis de Informe
 
 Revisemos el informe proporcionado por partes.
 
-![informe1](informe1.png)
+![informe1](img/informe1.png)
 
 Un dato relevante es el monto exigido: 300 ETH (Ethereum: La criptomoneda nativa de la plataforma Ethereum).
 
@@ -20,12 +20,12 @@ Luego,
 
 Tenemos más que todo consejos para realizar OSINT (Open Source Intelligence: Recopilación y análisis de información disponible públicamente)
 
-![informe2](informe2.png)
-![informe3](informe3.png)
+![informe2](img/informe2.png)
+![informe3](img/informe3.png)
 
 Y luego tenemos una imagen adjunta que proporciona datos importantes:
 
-![imagen_extorsion](imagen_extorsion.png)
+![imagen_extorsion](img/imagen_extorsion.png)
 
 ### Datos
 
@@ -47,17 +47,17 @@ Dicho esto listemos las preguntas de la plataforma de la siguiente manera:
 - Debes estar logueado
 - Click en Cuestionario -> Inicio
   
-![cuestionario](cuestionario.png)
+![cuestionario](img/cuestionario.png)
 
 - Podemos observar todas las preguntas y que cada una de ellas tiene un botón de comprobar.
 
-![alias_pregunta1](alias_pregunta1.png)
+![alias_pregunta1](img/alias_pregunta1.png)
 
-![pregunta2_3](pregunta2_3.png)
+![pregunta2_3](img/pregunta2_3.png)
 
-![pregunta4_5](pregunta4_5.png)
+![pregunta4_5](img/pregunta4_5.png)
 
-![pregunta6](pregunta6.png)
+![pregunta6](img/pregunta6.png)
 
 Ahora sí podemos empezar con la recopilación de información pública.
 
@@ -68,50 +68,50 @@ Usaremos esta herramiente online, su url es la siguiente:
 
 https://etherscan.io/
 
-![web_etherscan](web_etherscan.png)
+![web_etherscan](img/web_etherscan.png)
 
 Una vez en Etherscan, ingresamos en su buscador la dirección de billetera que tenemos como dato.
 
-![buscar_direccion](buscar_direccion.png)
+![buscar_direccion](img/buscar_direccion.png)
 
 Obtenemos información de esa dirección.
 
-![respuesta_direccion](respuesta_direccion.png)
+![respuesta_direccion](img/respuesta_direccion.png)
 
 Si nos desplazamos hasta abajo, podremos encontrar la sección de transferencias. Y podemos filtrar por "View Incoming Txns" para ver solo las transacciones que han ingresado a esta dirección.
 
-![entrantes](entrantes.png)
+![entrantes](img/entrantes.png)
 
 Podemos observar que existe solo una transacción que se encuentra entre la fecha de la amenaza (03-10-24 02:30:47) y la fecha límite para pagar la extorsión (04-10-24 02:30:47)
 
-![resultado_entrantes_fecha_hora](resultado_entrantes_fecha_hora.png)
+![resultado_entrantes_fecha_hora](img/resultado_entrantes_fecha_hora.png)
 
 Ingresamos al hash de la transacción para ver mayor detalle y aquí podemos encontrar todas las respuestas a las preguntas que anotamos. 
 
 ## Respuestas
 
 ### Cantidad exacta transferida
-![respuesta1](respuesta1.png)
+![respuesta1](img/respuesta1.png)
 
 ### Dirección de envío
-![respuesta2](respuesta2.png)
+![respuesta2](img/respuesta2.png)
 
 ### Dirección de recepción
-![respuesta3](respuesta3.png)
+![respuesta3](img/respuesta3.png)
 
 ### Plataforma usada para la operación
-![respuesta4](respuesta4.png)
+![respuesta4](img/respuesta4.png)
 
 ### Fecha y hora de la operación
 
 Aquí tenemos que tener cuidado, el formato que nos brinda etherscan es distinto al que se solicita en la plataforma MM-DD-YYYY 00:00:00.
 
-![respuesta5](respuesta5.png)
+![respuesta5](img/respuesta5.png)
 
 La respuesta sería: 10-03-2024 14:30:47
 
 ### Hash de la transacción
-![respuesta6](respuesta6.png)
+![respuesta6](img/respuesta6.png)
 
 Con esto tendríamos todas las respuesta y solo quedaría ingresarlas, comprobarlas y enviarlas.
 
@@ -122,11 +122,11 @@ Con esto tendríamos todas las respuesta y solo quedaría ingresarlas, comprobar
 Algo de lo que me pude dar cuenta es que el formato que pide la plataforma es MM-DD-YYYY 00:00:00 pero al colocar 10-03-2024 14:30:47 (poco más de las 2 de la tarde)
 según el formato establecido de 24 Horas y comprobarlo, se puede ver que no es correcto para plataforma a pesar de respetar el formato pedido.
 
-![error_pregunta5](error_pregunta5.png)
+![error_pregunta5](img/error_pregunta5.png)
 
 Después de varios intentos, el formato que acepta es Oct-03-2024 02:30:47 (poco más de las 2 de la mañana)
 
-![pregunta5_respuesta](pregunta5_respuesta.png)
+![pregunta5_respuesta](img/pregunta5_respuesta.png)
 
 Observando un poco nuestros datos, más allá de que la respuesta tampoco respeta el formato del mes, la hora no tiene sentido, porque la fecha y hora en la que el 
 extorsionador envía el mensaje a la víctima es 03-10-24 02:30:47 según la imagen proporcionada.
@@ -153,14 +153,14 @@ Es una herramienta que permite leer, escribir y editar metadatos en una amplia v
 
 Descargamos la imagen proporcionada con el nombre que deseemos, en mi caso "extorsion.jgp".
 
-![descarga_extorsion](descarga_extorsion.png)
+![descarga_extorsion](img/descarga_extorsion.png)
 
 La analizamos con el siguiente comando:
 
 ```bash
 exiftool ~/Downloads/extorsion.jpg 
 ```
-![exiftool](exiftool.png)
+![exiftool](img/exiftool.png)
 
 Podemos visualizar un dato importante que es "Lens Serial Number: : 0x-777a" que por el formato parece ser un hash que solo muestra sus 2 primeros y 4 últimos dígitos. Recordemos que estamos asumiendo el caso
 en que hay muchas transacciones y usamos este hash para hacer match con la transacción correcta. Esencialmente buscaremos un hash de transacción que cuente con estas características para llegar a la
