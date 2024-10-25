@@ -47,7 +47,7 @@ Esto es a criterio de cada uno. En mi caso particular:
 ### Escaneo de puertos
 
 ```bash
-nmap -sSCV -p- 10.0.2.32 -oN scan --min-rate 5000 -n -Pn
+sudo nmap -sSCV -p- 10.0.2.32 -oN scan --min-rate 5000 -n -Pn
 ```
 -sS: Realiza un escaneo SYN que es rápido y sigiloso porque no completa la conexión TCP.  
 -sC: Ejecuta los scripts NSE (Nmap Scripting Engine) predeterminados para detectar vulnerabilidades comunes.  
@@ -78,7 +78,7 @@ Revisamos su código fuente
 Podemos verificar que no hay información relevante.
 
 ### Fuzzing de directorios
-Por esto usamos gobuster de la siguiente manera
+Para esto usamos gobuster de la siguiente manera
 ```bash
 gobuster dir -u 10.0.2.32 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 200 -x php,txt
 ```
