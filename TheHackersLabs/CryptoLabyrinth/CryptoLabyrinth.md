@@ -56,7 +56,8 @@ sudo nmap -sSCV -p- 10.0.2.33 -oN scan --min-rate 5000 -n -Pn
 
 -sV: Detecta versiones de servicios que están en ejecución en los puertos abiertos.
 
--p-: Escanea todos los puertos (del 1 al 65535) y asegura que ningún puerto quede sin escanear.
+-p-: Escanea todos los puertos (del 1 al 65535) y asegura que ningún puerto quede sin escanear.  
+
 10.0.2.33: Dirección IP del objetivo.
 
 -oN: Guarda la salida en formato normal.
@@ -137,7 +138,7 @@ Encontramos archivos que al parecer nos darán pistas sobre passwords y también
 1. bob
 2. alice
 
-Revisaremos los archivos bob_password para intentar nutrir más nuestro archivo passwords.txt antes de realizar algún tipo de fuerza bruta.  
+Revisaremos los archivos bob_password para intentar nutrir más nuestro archivo passwords.txt antes de realizar algún tipo de fuerza bruta. (ASVISO: Esta parte es un Rabbit Hole)
 
 Aprovechemos la herramienta online CrackStation https://crackstation.net/
 
@@ -200,7 +201,7 @@ hydra -l bob -P passwords.txt ssh://10.0.2.33 -t 64 -V -f
 
 Hemos logrado encontrar la clave ssh de bob.
 
-NOTA: Nos damos cuenta que los passwords adicionales que encontramos en la carpeta hidden no nos sirvieron de todas maneras, a esto se conoce como rabbit hole, es decir, se trata de desviar nuestra atención para hacernos perder tiempo. A veces te darás cuenta, cuando ya lo has probado todo por ese hilo, pero de eso se trata, de probar y probar, pero saber cuándo parar y darte cuenta que estás en un Rabbit Hole!
+NOTA: Nos damos cuenta que los passwords adicionales que encontramos en la carpeta hidden no nos sirvieron de todas maneras, a esto se conoce como rabbit hole, es decir, se trata de desviar nuestra atención para hacernos perder tiempo. A veces te darás cuenta cuando ya lo has probado todo por ese hilo, pero de eso se trata, de probar y probar, pero saber cuándo parar y darte cuenta que estás en un Rabbit Hole!
 
 ### Conexión por SSH
 
